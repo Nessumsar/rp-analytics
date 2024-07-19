@@ -1,0 +1,41 @@
+@import models._ // Import your case classes
+@(results: List[ReturningUnit], summary:ReturningUnit)(implicit messages: Messages)
+
+@main("RP Analysis") {
+  <meta charset="UTF-8">
+  <h1>RP Analysis</h1>
+  <form action="@routes.HomeController.analyzeText" method="post">
+    <textarea name="rawText" rows="20" cols="150"></textarea><br>
+    <input type="submit" value="Analyze">
+  </form>
+
+  @if(results != null && summary != null) {
+    <h2>Analysis Results</h2>
+    <h3>Summary</h3>
+    <strong>Units:</strong> @summary.units<br>
+    <strong>Bounty:</strong> Wood: @summary.bounty.wood,
+    Clay: @summary.bounty.clay,
+    Iron: @summary.bounty.iron,
+    Wheat: @summary.bounty.wheat
+    Total: @summary.bounty.total<br>
+    <strong>Arrival Time:</strong> @summary.arrivalTime
+
+    <br><br><br>
+    <h3>Detailed view</h3>
+    <ul>
+      @for(result <- results) {
+      <li>
+        <strong>Units:</strong> @result.units<br>
+        <strong>Bounty:</strong> Wood: @result.bounty.wood,
+                                 Clay: @result.bounty.clay,
+                                 Iron: @result.bounty.iron,
+                                 Wheat: @result.bounty.wheat
+                                 Total: @result.bounty.total<br>
+        <strong>Arrival Time:</strong> @result.arrivalTime
+      </li>
+      }
+    </ul>
+  } else {
+    <p>No analysis data available.</p>
+  }
+}
